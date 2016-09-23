@@ -15,21 +15,22 @@ open class AnimalServiceClient {
     self.baseUrl = baseUrl
   }
 
-  open func getAlligator(_ success: @escaping (Animal) -> Void, failure: @escaping (NSError?) -> Void) {
+  open func getAlligator(_ success: @escaping (Animal) -> Void, failure: @escaping (Error?) -> Void) {
     Alamofire.request("\(baseUrl)/alligator")
     .responseJSON {
-      (result) in
-      if result.result.isSuccess {
-        if let jsonResult = result.result.value as? Dictionary<String, AnyObject> {
+      (response) in
+      switch response.result {
+      case .success(let responseValue):
+        if let jsonResult = responseValue as? Dictionary<String, AnyObject> {
           let alligator = Animal(
-              name: jsonResult["name"] as! String, 
-              type: jsonResult["type"] as! String, 
-              dob: jsonResult["dateOfBirth"] as? String,
-              legs: jsonResult["legs"] as? Int)
+            name: jsonResult["name"] as! String,
+            type: jsonResult["type"] as! String,
+            dob: jsonResult["dateOfBirth"] as? String,
+            legs: jsonResult["legs"] as? Int)
           success(alligator)
-        } else {
-          failure(result.result.value as? NSError)
         }
+      case .failure(let error):
+        failure(error)
       }
     }
   }

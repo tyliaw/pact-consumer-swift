@@ -2,19 +2,22 @@ import Quick
 import Nimble
 import PactConsumerSwift
 
+
 class PactSwiftSpec: QuickSpec {
   override func spec() {
-    var animalMockService: MockService?
+    // var animalMockService: MockService?
+    var pactRunner: PactRunner?
     var animalServiceClient: AnimalServiceClient?
 
     describe("tests fulfilling all expected interactions") {
       beforeEach {
-        animalMockService = MockService(provider: "Animal Service", consumer: "Animal Consumer Swift")
-        animalServiceClient = AnimalServiceClient(baseUrl: animalMockService!.baseUrl)
+        pactRunner = PactRunner(provider: "Animal Service", consumer: "Animal Consumer Swift")
+        // animalMockService = MockService(provider: "Animal Service", consumer: "Animal Consumer Swift")
+        animalServiceClient = AnimalServiceClient(baseUrl: pactRunner!.baseUrl)
       }
 
       it("gets an alligator") {
-        animalMockService!.given("an alligator exists")
+        pactRunner!.given("an alligator exists")
                           .uponReceiving("a request for an alligator")
                           .withRequest(method:.GET, path: "/alligator")
                           .willRespondWith(status: 200,
@@ -22,7 +25,7 @@ class PactSwiftSpec: QuickSpec {
                                            body: ["name": "Mary", "type": "alligator"])
 
         //Run the tests
-        animalMockService!.run { (testComplete) -> Void in
+        pactRunner!.run { (testComplete) -> Void in
           animalServiceClient!.getAlligator( { (alligator) in
               expect(alligator.name).to(equal("Mary"))
               testComplete()
@@ -32,7 +35,7 @@ class PactSwiftSpec: QuickSpec {
         }
       }
 
-      describe("With query params") {
+  /*    describe("With query params") {
         it("should return animals living in water") {
           animalMockService!.given("an alligator exists")
                             .uponReceiving("a request for animals living in water")
@@ -200,7 +203,7 @@ class PactSwiftSpec: QuickSpec {
             })
           }
         }
-      }
+      }*/
     }
   }
 }

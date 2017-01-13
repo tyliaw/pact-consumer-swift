@@ -1,7 +1,7 @@
 import Alamofire
 
 @objc public enum PactHTTPMethod: Int {
-  case OPTIONS, GET, HEAD, POST, PUT, PATCH, DELETE, TRACE, CONNECT
+  case options, get, head, post, put, patch, delete, trace, connect
 }
 
 @objc open class Interaction: NSObject {
@@ -24,7 +24,7 @@ import Alamofire
 
   @objc(withRequestHTTPMethod: path: query: headers: body:)
   @discardableResult
-  open func withRequest(method: PactHTTPMethod, path: Any, query: Dictionary<String, Any>? = nil, headers: Dictionary<String, String>? = nil, body: Any? = nil) -> Interaction {
+  open func withRequest(_ method: PactHTTPMethod, path: Any, query: Dictionary<String, Any>? = nil, headers: Dictionary<String, String>? = nil, body: Any? = nil) -> Interaction {
     request = ["method": httpMethod(method), "path": path]
     if let headersValue = headers {
       request["headers"] = headersValue
@@ -40,7 +40,7 @@ import Alamofire
 
   @objc(willRespondWithHTTPStatus: headers: body:)
   @discardableResult
-  open func willRespondWith(status: Int, headers: Dictionary<String, String>? = nil, body: Any? = nil) -> Interaction {
+  open func willRespondWith(_ status: Int, headers: Dictionary<String, String>? = nil, body: Any? = nil) -> Interaction {
     response = ["status": status]
     if let headersValue = headers {
       response["headers"] = headersValue
@@ -61,21 +61,21 @@ import Alamofire
 
   fileprivate func httpMethod(_ method: PactHTTPMethod) -> String {
     switch method {
-      case .GET:
+      case .get:
         return "get"
-      case .HEAD:
+      case .head:
         return "head"
-      case .POST:
+      case .post:
         return "post"
-      case .PUT:
+      case .put:
         return "put"
-      case .PATCH:
+      case .patch:
         return "patch"
-      case .DELETE:
+      case .delete:
         return "delete"
-      case .TRACE:
+      case .trace:
         return "trace"
-      case .CONNECT:
+      case .connect:
         return "connect"
       default:
         return "get"

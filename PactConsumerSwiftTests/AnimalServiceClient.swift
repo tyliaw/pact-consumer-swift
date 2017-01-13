@@ -54,7 +54,7 @@ open class AnimalServiceClient {
     }
   }
 
-  open func findAnimals(live: String, response: @escaping ([Animal]) -> Void) {
+  open func findAnimals(_ live: String, response: @escaping ([Animal]) -> Void) {
     Alamofire.request("\(baseUrl)/animals", parameters: [ "live": live])
     .responseJSON {
       (result) in
@@ -74,7 +74,7 @@ open class AnimalServiceClient {
     }
   }
 
-  open func eat(animal: String, success: @escaping () -> Void, error: @escaping (Int) -> Void) {
+  open func eat(_ animal: String, success: @escaping () -> Void, error: @escaping (Int) -> Void) {
     Alamofire.request("\(baseUrl)/alligator/eat", method: .patch, parameters: [ "type" : animal ], encoding: JSONEncoding.default)
     .responseString { (response) in
       if response.result.isFailure {
@@ -85,7 +85,7 @@ open class AnimalServiceClient {
     }
   }
 
-  open func wontEat(animal: String, success: @escaping () -> Void, error: @escaping (Int) -> Void) {
+  open func wontEat(_ animal: String, success: @escaping () -> Void, error: @escaping (Int) -> Void) {
     Alamofire.request("\(baseUrl)/alligator/eat", method: .delete, parameters: [ "type" : animal ], encoding: JSONEncoding.default)
     .responseJSON { (response) in
       if response.result.isFailure {

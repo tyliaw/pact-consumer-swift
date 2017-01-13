@@ -82,7 +82,7 @@ open class PactVerificationService {
     return promise.future
   }
 
-  func verify(provider: String, consumer: String) -> Future<String, NSError> {
+  func verify(_ provider: String, consumer: String) -> Future<String, NSError> {
     let promise = Promise<String, NSError>()
     self.verifyInteractions().onSuccess {
       result in
@@ -103,7 +103,7 @@ open class PactVerificationService {
     return promise.future
   }
 
-  fileprivate func write(provider: String, consumer: String) -> Future<String, NSError> {
+  fileprivate func write(_ provider: String, consumer: String) -> Future<String, NSError> {
     let promise = Promise<String, NSError>()
 
     Alamofire.request(Router.write([ "consumer": [ "name": consumer ], "provider": [ "name": provider ] ]))

@@ -2,7 +2,7 @@ import Foundation
 
 @objc open class Matcher: NSObject {
 
-  @objc open class func term(matcher: String, generate: String) -> [String: Any] {
+  @objc open class func term(_ matcher: String, generate: String) -> [String: Any] {
     return [ "json_class": "Pact::Term",
       "data": [
         "generate": generate,
